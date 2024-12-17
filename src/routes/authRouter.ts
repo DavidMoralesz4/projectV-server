@@ -2,7 +2,6 @@ import { Router } from "express";
 import {
   loginController,
   logoutController,
-  registerController,
 } from "../controllers/authController";
 import { authenticateToken } from "../middlewares/authenticateToken";
 import jwt from 'jsonwebtoken'

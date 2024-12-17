@@ -39,7 +39,7 @@ export const loginService = async ({ email, password, username }: IUser) => {
   // 1. Asegurar que el usuario esta registrado (Atravez del email)
   const user = await User.findOne({ email });
   const token = jwt.sign(
-    { username: user?.username, password: user?.password } , SECRET_KEY,
+    { username: user?.username, password: user?.password, email: user?.email } , SECRET_KEY,
     {
       expiresIn: "1h",
     }

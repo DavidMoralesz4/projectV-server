@@ -6,7 +6,7 @@ export interface IProduct extends Document {
   imagen: string;
   precio: string;
   unidad: string;
-  categoria: "Tecnologia" | "Ropa" | "Calzado";
+  categoria: "Tecnologia" | "Ropa" | "Zapatos" | "Hogar" | "Belleza";
 }
 
 const productSchema = new mongoose.Schema({

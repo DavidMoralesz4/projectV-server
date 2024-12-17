@@ -8,6 +8,9 @@ import {
 export const allProductsController = async (req: Request, res: Response) => {
   try {
     const products = await getProdService();
+    if(products.length === 0 ) {
+      return res.status(404).json({ message: 'No se encontraron productos en esta categoría.'});
+    }
 
     res.status(200).json(products);
   } catch (error) {
@@ -48,7 +51,7 @@ export const getCategoryController = async (req: Request, res: Response) => {
     const products = await categoryService(id);
 
     if (products.length === 0) {
-      res.status(404).json({ message: 'No se encontraron productos en esta categoría.' });
+     return res.status(404).json({ message: 'No se encontraron productos en esta categoría.' });
     }
 
     // Retorna los productos relacionados

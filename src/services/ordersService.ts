@@ -9,7 +9,7 @@ export const getOrderService = async () => {
     .populate({
       path: "client", // Poblamos el campo client_id
       model: "Client",
-      select: "firstName lastName document phone address", // Seleccionamos las propiedades que queremos mostrar
+      select: "firstName lastName document phone email address", // Seleccionamos las propiedades que queremos mostrar
     })
     .populate({
       path: "order", // Poblamos el campo product_ids
