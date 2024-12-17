@@ -41,18 +41,20 @@ export const uploadProducts = async (
 };
 
 export const getCategoryController = async (req: Request, res: Response) => {
-  const { id } = req.params;
-
+  const { id } = req.params; // Captura la categoría desde los parámetros de la URL
   try {
+
+    // Busca todos los productos con esa categoría
     const products = await categoryService(id);
 
-    if (!products.length) {
-      res.status(404).json({ message: "No hay productos en esta categoria" });
+    if (products.length === 0) {
+      res.status(404).json({ message: 'No se encontraron productos en esta categoría.' });
     }
 
+    // Retorna los productos relacionados
     res.status(200).json(products);
-  } catch (error) {
-    console.error("Error al obtener productos por categoría:", error);
-    res.status(500).json({ message: "Error interno del servidor." });
-  }
+} catch (error) {
+    console.error('Error al obtener productos por categoría:', error);
+    res.status(500).json({ message: 'Error interno del servidor.' });
+}
 };
