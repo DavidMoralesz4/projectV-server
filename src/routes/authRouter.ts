@@ -2,24 +2,19 @@ import { Router } from "express";
 import {
   loginController,
   logoutController,
+  registerController,
 } from "../controllers/authController";
 import { authenticateToken } from "../middlewares/authenticateToken";
-import jwt from 'jsonwebtoken'
-import { SECRET_KEY } from "../config";
+import { dashboardController } from "../controllers/productsController";
+
 
 export const authRouter: Router = Router();
 
-
-authRouter.get("/dashboard", authenticateToken, (req, res) => {
-  
-  const token = req.cookies['acces_token']
-
-  const data = jwt.verify(token, SECRET_KEY)
-  
-  res
-    .status(200)
-    .json({ message: "Bienvenido al dashboard", data});
-});
+authRouter.get("/dashboard", authenticateToken, dashboardController);
 
 authRouter.post("/login", loginController);
+
+authRouter.post("/register", registerController);
+
+
 authRouter.post("/logout", logoutController);

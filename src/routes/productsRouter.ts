@@ -1,14 +1,24 @@
 import { Router } from "express";
-import { allProductsController, getCategoryController, uploadProducts } from "../controllers/productsController";
 import upload from "../middlewares/middleware";
+import {
+  allProductsController,
+  getBrandController,
+  getCategoryController,
+  uploadProducts,
+} from "../controllers/productsController";
+import { authenticateToken } from "../middlewares/authenticateToken";
 
-export const productRouter: Router = Router()
+export const productRouter: Router = Router();
 
-productRouter.get('/products', allProductsController)
+productRouter.get("/products", authenticateToken, allProductsController);
 
-productRouter.get('/products/:id', getCategoryController)
+productRouter.get("/products/:categoria", authenticateToken, getCategoryController);
 
-productRouter.post('/products/create/csv',  upload.single("file"), uploadProducts)
+productRouter.get("/products/:categoria/:marca", authenticateToken, getBrandController);
 
-
-
+productRouter.post(
+  "/products/create/csv",
+  upload.single("file"),
+  authenticateToken,
+  uploadProducts
+);

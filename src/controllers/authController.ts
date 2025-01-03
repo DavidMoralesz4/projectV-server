@@ -1,7 +1,7 @@
 import { Request, Response } from "express";
 import { loginService, registerService } from "../services/authService";
 
-export const loginController = async (req: Request, res: Response) => {
+export const loginController = async (req: Request, res: Response): Promise<void> => {
   const { email, password } = req.body;
   
   try {
@@ -12,11 +12,13 @@ export const loginController = async (req: Request, res: Response) => {
       secure: process.env.NODE_ENV === "production", // La cookie solo se puede acceder en https
       sameSite: "strict", // La cookie solo se puede acceder en el mismo dominio
       maxAge: 1000 * 60 * 60, // La cookie tiene un tiempo de validacion de 1 hora
-    });
-
+    });    
+    
     res.status(200).json({ message: "Has iniciado sesion!"});
+    return 
   } catch (error) {
     res.status(401).json({ error: "Error al iniciar sesion" });
+    return 
   }
 };
 

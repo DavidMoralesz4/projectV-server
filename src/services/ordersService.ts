@@ -4,8 +4,8 @@ import { Product } from "../models/Products";
 
 // TODO: Verificar si el cliente con ese ducmento existe***********
 
-export const getOrderService = async () => {
-  const orders = await Order.find()
+export const getOrderService = async (userId: string) => {
+  const orders = await Order.find({userId})
     .populate({
       path: "client", // Poblamos el campo client_id
       model: "Client",
@@ -22,7 +22,8 @@ export const getOrderService = async () => {
 
 export const createOrderService = async (
   document: string,
-  productsAdd: string[]
+  productsAdd: string[],
+  userId: string
 ) => {
   // TODO: Verifivar si el cliente con ese documento no existe, y en caso tal crearlo
   let client = await Client.findOne({ document });
@@ -33,7 +34,7 @@ export const createOrderService = async (
 
   // TODO: buscar productos por sus IDs
   const products = await Product.find({ _id: { $in: productsAdd } });
-
+  // Aqui busco los productos por id, usando $in
   // TODO: calcular totales de productos
   const total = products.reduce((acc, product) => acc + product.precio, 0);
 
@@ -43,6 +44,7 @@ export const createOrderService = async (
     order: productsAdd,
     status: "Pendiente",
     total,
+    userId
   });
 
   await newOrder.save();

@@ -3,7 +3,12 @@ import { createOrderService, getOrderService } from "../services/ordersService";
 
 export const getOrdersController = async (req: Request, res: Response) => {
   try {
-    const orders = await getOrderService();
+    if(!req.userId){
+      res.status(400).json({message: "Id del usuario es requerido, Por favor inicia sesion!"})
+      return
+    }
+
+    const orders = await getOrderService(req.userId);
 
     res.status(200).json(orders);
   } catch (error) {
@@ -20,7 +25,12 @@ export const createOrderController = async (req: Request, res: Response) => {
       res.status(400).json({ error: "Cliente y productos son requeridos." });
     }
 
-    const newOrder = await createOrderService(document, order);
+    if(!req.userId) {
+      res.status(400).json({message: "Id del usuario es requerido, Por favor inicia sesion!"})
+      return
+    }
+
+    const newOrder = await createOrderService(document, order, req.userId);
 
     res.status(200).json(newOrder);
   } catch (error) {
